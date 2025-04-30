@@ -2,6 +2,7 @@ package com.example.toy.auth
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.interfaces.DecodedJWT
 import java.util.*
 
 object JwtUtil {
@@ -17,13 +18,12 @@ object JwtUtil {
             .sign(algorithm)
     }
 
-    fun validateToken(token: String): String? {
+    fun validateToken(token: String): DecodedJWT? {
         return try {
             val verifier = JWT.require(algorithm).build()
-            val decoded = verifier.verify(token)
-            decoded.subject
+            verifier.verify(token) // ⬅ DecodedJWT 리턴
         } catch (e: Exception) {
-            print(e)
+            println("Token verification failed: ${e.message}")
             null
         }
     }

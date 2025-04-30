@@ -22,7 +22,13 @@ class JwtAuthFilter : OncePerRequestFilter() {
             request,
             response
         )
-        val userId = JwtUtil.validateToken(token)
+        val decoded = JwtUtil.validateToken(token)
+        if (decoded == null) {
+            response.status = HttpServletResponse.SC_UNAUTHORIZED
+            response.writer.write("Invalid or missing token")
+            return
+        }
+        val userId = decoded.subject
         if (userId == null) {
             response.status = HttpServletResponse.SC_UNAUTHORIZED
             response.writer.write("Invalid or missing token")
