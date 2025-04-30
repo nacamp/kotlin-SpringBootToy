@@ -1,6 +1,8 @@
 package com.example.toy.auth
 
+import com.example.toy.common.exception.UnauthorizedException
 import com.example.toy.users.UsersService
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.stereotype.Service
 
 @Service
@@ -12,10 +14,10 @@ class AuthService(
 
     fun login(email: String, password: String): Map<String, Any> {
         val user = usersService.findUserByEmail(email)
-            ?: return mapOf("error" to "User not found")
+            ?: throw UnauthorizedException("User not found")
 
         if (user.password != password) {
-            return mapOf("error" to "Invalid credentials")
+            throw BadCredentialsException("Invalid credentials")
         }
 
         val accessToken = JwtUtil.generateToken(user.id, user.email, 3600)

@@ -20,10 +20,10 @@ login_payload = {
     "password": "password"        # 로그인 비밀번호
 }
 login_response = requests.post(login_url, json=login_payload)
-# print(login_response.text)
-# print(login_response.status_code)
-print(login_response.json())
 print(login_response.status_code)
+print(login_response.text)
+# print(login_response.json())
+# print(login_response.status_code)
 if 200 <= login_response.status_code < 300:
     print('Login successful')
     r = login_response.json()
@@ -59,7 +59,26 @@ else:
     print(users_response.status_code)
     print(users_response.text)
 
-# 3. refresh token
+# 3. 토큰으로 /users API 호출
+print("\r\nUsers  Response:")
+headers = {
+    "Authorization": f"Bearer {access_token}"
+}
+
+# Find all users
+users_response = requests.get(f"{BASE_URL}/users/3", headers=headers)
+
+if 200 <= users_response.status_code < 300:
+    users = users_response.text #json()
+    print("Users List:")
+    print(users)
+else:
+    print("Failed to fetch users")
+    print(users_response.status_code)
+    print(users_response.text)
+
+
+# 4. refresh token
 print("\r\nRefresh  Response:")
 headers = {
     "Authorization": f"Bearer {access_token}"
