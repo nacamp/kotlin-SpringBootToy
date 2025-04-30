@@ -8,7 +8,7 @@ class AuthService(
     private val usersService: UsersService
 ) {
     // In-memory 저장소 (DB로 교체 가능)
-    private val refreshTokenStore = mutableMapOf<String, String>()
+    private val refreshTokenStore = mutableMapOf<Long, String>()
 
     fun login(email: String, password: String): Map<String, Any> {
         val user = usersService.findUserByEmail(email)
@@ -30,7 +30,7 @@ class AuthService(
         )
     }
 
-    fun refresh(userId: String, refreshToken: String): Map<String, Any> {
+    fun refresh(userId: Long, refreshToken: String): Map<String, Any> {
         val stored = refreshTokenStore[userId]
         if (stored == null || stored != refreshToken) {
             return mapOf("error" to "Invalid or expired refresh token")
@@ -45,7 +45,7 @@ class AuthService(
         return mapOf("access_token" to newAccessToken)
     }
 
-    fun logout(userId: String): Map<String, String> {
+    fun logout(userId: Long): Map<String, String> {
         refreshTokenStore.remove(userId)
         return mapOf("message" to "Logged out successfully")
     }

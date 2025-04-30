@@ -3,6 +3,7 @@ plugins {
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.4.5"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("org.jetbrains.kotlin.plugin.jpa") version "1.9.25"
 }
 
 group = "com.example"
@@ -27,6 +28,9 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	implementation("com.auth0:java-jwt:4.5.0")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.xerial:sqlite-jdbc:3.42.0.0")
+	implementation("org.hibernate.orm:hibernate-community-dialects")
 }
 
 kotlin {
