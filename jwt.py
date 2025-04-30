@@ -8,32 +8,32 @@ users_url = f"{BASE_URL}/users"
 jwt_url = f"{BASE_URL}/protected"
 
 #0. 회원가입해서 유저 생성
-print("Create User :")
-data = { "email": "test@example.com", "name" : "tester", "password":"password"}
-response = requests.post(users_url, json=data)
-print("Create User Response:", response.json())
+# print("Create User Response:")
+# data = { "email": "test@example.com", "name" : "tester", "password":"password"}
+# response = requests.post(users_url, json=data)
+# print(response.json())
 
 # 1. 로그인해서 토큰 받기
-print("Login  Response:")
+print("\r\nLogin  Response:")
 login_payload = {
     "email": "test@example.com",  # 로그인 이메일
     "password": "password"        # 로그인 비밀번호
 }
 login_response = requests.post(login_url, json=login_payload)
-# print("Login Response:", login_response.text)
-# print("Login Response:", login_response.status_code)
-print("Login Response:", login_response.json())
-print("Login Response:", login_response.status_code)
+# print(login_response.text)
+# print(login_response.status_code)
+print(login_response.json())
+print(login_response.status_code)
 if 200 <= login_response.status_code < 300:
     print('Login successful')
-#     r = login_response.json()
-#     access_token = r.get("data").get("access_token")
-#     refresh_token = r.get("data").get("refresh_token")
-#     user_id = r.get("data").get("id")
+    r = login_response.json()
+    access_token = r.get("data").get("access_token")
+    refresh_token = r.get("data").get("refresh_token")
+    user_id = r.get("data").get("id")
 
-    access_token = login_response.json().get("access_token")
-    refresh_token = login_response.json().get("refresh_token")
-    user_id = login_response.json().get("id")
+#     access_token = login_response.json().get("access_token")
+#     refresh_token = login_response.json().get("refresh_token")
+#     user_id = login_response.json().get("id")
     print(f"Access Token: {access_token}")
     print(f"Refresh Token: {refresh_token}")
 else:
@@ -42,7 +42,7 @@ else:
     exit()
 
 # 2. 토큰으로 /users API 호출
-print("Users  Response:")
+print("\r\nUsers  Response:")
 headers = {
     "Authorization": f"Bearer {access_token}"
 }
@@ -60,7 +60,7 @@ else:
     print(users_response.text)
 
 # 3. refresh token
-print("Refresh  Response:")
+print("\r\nRefresh  Response:")
 headers = {
     "Authorization": f"Bearer {access_token}"
 }
