@@ -48,6 +48,17 @@ Spring Web 추가
 ```
 
 ## operation
+### 빌드 후 실행
+```bash
+./gradlew bootJar
+java -jar ./build/libs/SpringBootToy-0.0.1-SNAPSHOT.jar
+```
+### 빌드없이 실행
 ```bash
 ./gradlew bootRun
+```
+### task 조사
+```bash
+./gradlew tasks
+./gradlew help --task bootRun
 ```
